@@ -1,0 +1,18 @@
+/* 暂无数据 */
+.no-data{
+	align-content: center;
+	text-align: center;
+	padding: 20upx 0;
+	font-size: 28upx;
+	color: #666;
+}
+/* margin、padding */
+.marr50{
+	margin-right:50upx ;
+}
+.marr10{
+	margin-right:10upx ;
+}
+.marb100{
+	margin-bottom: 50upx;
+}

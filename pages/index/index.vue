@@ -1,0 +1,410 @@
+<template>
+
+	<view class="page_edu">
+		<view class="page-section swiper">
+			<view class="page-section-spacing">
+				<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+					<swiper-item v-for="(it,i) in sliders" :key="i">
+						<image class="swiper-item uni-bg-red" :src="it" style="width: 100%;height: 100%;" />
+					</swiper-item>
+				</swiper>
+			</view>
+		</view>
+		<!-- <view class="page_edu_header">
+				<view class="page-section swiper" style="100%;height: 400upx;">
+				<view class="page-section-spacing">
+					<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+						<swiper-item v-for="(it,i) in sliders">
+							<image class="swiper-item uni-bg-red" :src="it" style="width: 100%;height: 100%;" />
+						</swiper-item>
+					</swiper>
+				</view>
+			</view>
+		</view> -->
+		<view class="page_content">
+			<view class="menu">
+				<template v-for="(it,i) in menus">
+					<view class="item" :key="i">
+						<view class="img_view" :style="{background: it.bg}">
+							<image :src="it.icon" class="image"></image>
+						</view>
+						<text class="txt">{{it.txt}}</text>
+					</view>
+				</template>
+			</view>
+			<view class="s_menu">
+				<template v-for="(it,i) in second_menus">
+					<view class="item" :key="i">
+						<image :src="it.icon" class="image"></image>
+						<text class="txt">{{it.txt}}</text>
+					</view>
+				</template>
+			</view>
+			<!-- <view class="ad">
+				<view class="ad_btn">
+					<text class="title" style="font-size: 40upx;">在线课程即将上线</text>
+					<text class="sub_title">让学习更加轻松</text>
+				</view>
+				<image src="/static/tag.png" class="bg"></image>
+			</view> -->
+		</view>
+		<!-- <scroll-view scroll-x="true" class="slider">
+			<template v-for="(it, i) in records">
+				<view class="item" :key="i" :style="{background: it.bg, marginRight: i === records.length - 1 ? '15px' : '0px'}">
+					<view class="item_content">
+						<view class="title">
+							<text class="first">{{it.title}}</text>
+							<text class="main">主讲：{{it.mainTeacher}}</text>
+							<text class="sub" :style="{color:it.subColor}">{{it.subTitle}}</text>
+						</view>
+						<image class="image" :src="it.icon"></image>
+						<text class="free" style="font-size:24upx;">已\n开\n课</text>
+					</view>
+				</view>
+			</template>
+		</scroll-view> -->
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				indicatorDots: true,
+				autoplay: true,
+				interval: 3000,
+				duration: 500,
+				sliders: [
+					"https://www.uestc.edu.cn/public/2019/04/001.png",
+					"https://www.uestc.edu.cn/public/2019/04/007.png",
+					"https://www.uestc.edu.cn/public/2019/04/002.png"
+				],
+				menus: [{
+						bg: 'linear-gradient(0deg,rgba(9,216,162,1),rgba(90,242,217,1))',
+						icon: '/static/graduation.png',
+						txt: '评价评教',
+						isFree: true
+					},
+					{
+						bg: 'linear-gradient(0deg,rgba(251,184,35,1),rgba(255,228,40,1))',
+						icon: '/static/live.png',
+						txt: '在线课程',
+						isFree: false
+					},
+					{
+						bg: 'linear-gradient(0deg,rgba(255,126,34,1),rgba(240,184,27,1))',
+						icon: '/static/emblem.png',
+						txt: '设备借还',
+						isFree: true
+					},
+					{
+						bg: 'linear-gradient(0deg,rgba(9,177,252,1),rgba(24,200,255,1))',
+						icon: '/static/question_bank.png',
+						txt: '实验预习',
+						isFree: true
+					}
+				],
+				second_menus: [{
+						icon: '/static/exam.png',
+						txt: '通知公告'
+					},
+					{
+						icon: '/static/textbook.png',
+						txt: '教材教案',
+					},
+					{
+						icon: '/static/book_ticket.png',
+						txt: '去蹭课'
+					},
+					{
+						icon: '/static/more.png',
+						txt: '全部课程'
+					}
+				],
+				records: [{
+						bg: 'linear-gradient(-30deg,rgba(171,218,255,1),rgba(215,239,255,1))',
+						title: '通信原理',
+						mainTeacher: '李晓峰',
+						subTitle: '国家精品课程',
+						subColor: '#15639F',
+						icon: '/static/test2.png',
+						isFree: true
+					},
+					{
+						bg: 'linear-gradient(-30deg,rgba(192,253,227,1),rgba(224,252,240,1))',
+						title: '计算机系统与网络安全技术',
+						mainTeacher: '周世杰',
+						subTitle: '网络工程系列课',
+						subColor: '#07B77B',
+						icon: '/static/test.png',
+						isFree: false
+					},
+					{
+						bg: 'linear-gradient(-30deg,rgba(171,218,255,1),rgba(215,239,255,1))',
+						title: '模拟电路基础',
+						mainTeacher: '何松柏',
+						subTitle: '精品课程',
+						subColor: '#15639F',
+						icon: '/static/test2.png',
+						isFree: true
+					}
+				]
+			}
+		},
+		onLoad() {
+			this.http.post("home/current", {
+				data: {
+					"type": 1
+				}
+			}).then(res => {
+				console.info("请求成功!")
+			}).catch(error => {});
+		},
+		methods: {
+			// #ifndef MP
+			onNavigationBarButtonTap(e) {
+				const index = e.index;
+				if (index === 0) {
+					uni.scanCode({
+						success: function(res) {
+							console.log('条码类型：' + res.scanType);
+							console.log('条码内容：' + res.result);
+						}
+					});
+				} else if (index === 1) {
+					// #ifdef APP-PLUS
+					const pages = getCurrentPages();
+					const page = pages[pages.length - 1];
+					const currentWebview = page.$getAppWebview();
+					currentWebview.hideTitleNViewButtonRedDot({
+						index
+					});
+					// #endif
+					console.debug("点击了消息, 红点新消息提示已清除")
+				}
+			}
+			// #endif
+		}
+	}
+</script>
+
+<style>
+	page {
+		width: 100%;
+		background-color: #E8F2FC;
+	}
+
+	.swiper {
+		height: 420upx;
+	}
+
+	.uni-bg-red {
+		background: none;
+	}
+</style>
+<style lang="scss" scoped>
+	@function realSize($args) {
+		@return $args / 1.5;
+	}
+
+	.page_edu {
+		width: 100%;
+	}
+
+	.page_edu_header {
+		// padding-top: var(--status-bar-height);
+		width: 100%;
+		height: realSize(415px);
+	}
+
+	.page_content {
+		width: 100%;
+		margin-top: 40upx;
+
+		.menu {
+			margin-left: 10px;
+			margin-right: 10px;
+			padding-left: 10px;
+			padding-right: 10px;
+			height: realSize(176px);
+			background: rgba(255, 255, 255, 1);
+			box-shadow: 0px 10px 10px 0px rgba(0, 161, 124, 0.1);
+			border-radius: 10px;
+			display: flex;
+			flex-direction: row;
+			align-items: stretch;
+			justify-content: space-between;
+
+			.item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				.img_view {
+					width: 60px;
+					height: 60px;
+					border-radius: 30px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					.image {
+						width: 50px;
+						height: 50px;
+					}
+				}
+
+				.txt {
+					margin-top: 5px;
+					font-size: 14px;
+					color: rgba(51, 51, 51, 1);
+				}
+			}
+		}
+
+		.s_menu {
+			display: flex;
+			flex-direction: row;
+			align-items: stretch;
+			justify-content: space-between;
+			margin-top: 15px;
+			margin-left: 10px;
+			margin-right: 10px;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			.item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				.image {
+					width: 35px;
+					height: 35px;
+				}
+
+				.txt {
+					margin-top: 5px;
+					font-size: 14px;
+					color: rgba(51, 51, 51, 1);
+				}
+			}
+		}
+
+		.ad {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+
+			.bg {
+				position: absolute;
+				width: 120px;
+				height: 105px;
+				left: 0;
+			}
+
+			.ad_btn {
+				width: 100%;
+				height: 63px;
+				margin: 30px;
+				background: linear-gradient(0deg, rgba(253, 155, 28, 1), rgba(251, 197, 33, 1));
+				border-radius: 67px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				.title {
+					font-size: realSize(38px);
+					font-family: PingFang-SC-Heavy;
+					font-weight: 800;
+					color: rgba(255, 255, 255, 1);
+				}
+
+				.sub_title {
+					background: linear-gradient(0deg, rgba(255, 128, 37, 1), rgba(255, 153, 32, 1));
+					box-shadow: 0px 4px 5px 0px rgba(92, 53, 48, 0.3), 0px 1px 0px 0px rgba(228, 228, 228, 1);
+					border-radius: realSize(24px);
+					font-size: realSize(24px);
+					font-family: PingFang-SC-Heavy;
+					font-weight: 800;
+					font-style: italic;
+					color: rgba(255, 236, 177, 1);
+					line-height: realSize(26px);
+				}
+			}
+		}
+	}
+
+	.slider {
+		white-space: nowrap;
+		width: 100%;
+		background-color: white;
+
+		.item {
+			display: inline-block;
+			margin-left: 15px;
+			margin-top: 13px;
+			margin-bottom: 13px;
+			width: 60%;
+			height: 125px;
+			border-radius: 10px;
+
+			.item_content {
+				display: flex;
+				flex-direction: row;
+
+				.title {
+					width: 36%;
+					margin: 20px;
+					display: flex;
+					flex-direction: column;
+
+					.first {
+						font-size: 16px;
+						color: rgba(46, 65, 69, 1);
+					}
+
+					.main {
+						font-size: 13px;
+						color: rgba(79, 103, 101, 1);
+						margin-top: 5px;
+					}
+
+					.sub {
+						width: 60px;
+						font-size: 10px;
+						margin-top: 20px;
+						background: rgba(255, 255, 255, 0.4);
+						border-radius: 5px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+
+				.image {
+					margin-top: 35px;
+					width: 80px;
+					height: 80px;
+				}
+
+				.free {
+					background: rgba(11, 147, 252, 1);
+					border-radius: 0px 0px 22px 22px;
+					width: 25px;
+					height: 60px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #FFFFFF;
+					font-size: 14px;
+				}
+			}
+		}
+	}
+</style>
